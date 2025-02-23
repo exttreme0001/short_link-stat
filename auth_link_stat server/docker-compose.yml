@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+
+  auth_link_stat:
+    container_name: auth_link_stat_container
+    build: ./
+    command: ./wait-for-db.sh ./auth_link_stat
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8081"
+
+  postgres:
+    container_name: postgres_go
+    image: postgres:16.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: my_pass
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres-data:/data/postgres
+    ports:
+      - "5433:5432"
